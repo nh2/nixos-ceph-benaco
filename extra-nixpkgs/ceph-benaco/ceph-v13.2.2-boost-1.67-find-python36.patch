@@ -1,0 +1,39 @@
+From 4ade786e46a4c2da4f41f4a77fb7d21d3c89124f Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Niklas=20Hamb=C3=BCchen?= <mail@nh2.me>
+Date: Sat, 3 Nov 2018 22:01:57 +0100
+Subject: [PATCH] Fix build on NixOS 18.03 with Boost 1.67 and Python 3.6
+
+---
+ CMakeLists.txt     | 2 +-
+ src/CMakeLists.txt | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 37cb4368f5..ec8784d602 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -594,7 +594,7 @@ set(BOOST_COMPONENTS
+ set(BOOST_HEADER_COMPONENTS container)
+ 
+ if(WITH_MGR)
+-	list(APPEND BOOST_COMPONENTS python)
++	list(APPEND BOOST_COMPONENTS python36)
+ endif()
+ if(WITH_BOOST_CONTEXT)
+   list(APPEND BOOST_COMPONENTS context coroutine)
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 0f08c2dae4..f666e70472 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -756,7 +756,7 @@ if (WITH_MGR)
+                  $<TARGET_OBJECTS:heap_profiler_objs>)
+   target_include_directories(ceph-mgr SYSTEM PRIVATE "${PYTHON_INCLUDE_DIRS}")
+   target_link_libraries(ceph-mgr osdc client global-static ceph-common
+-      Boost::python ${MGR_PYTHON_LIBRARIES} ${BLKID_LIBRARIES} ${CMAKE_DL_LIBS} ${ALLOC_LIBS})
++      Boost::python36 ${MGR_PYTHON_LIBRARIES} ${BLKID_LIBRARIES} ${CMAKE_DL_LIBS} ${ALLOC_LIBS})
+   install(TARGETS ceph-mgr DESTINATION bin)
+ endif (WITH_MGR)
+ 
+-- 
+2.17.1
+
